@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Longitude and Latitude Input</title>
+    <style>
+
+        body {
+            font-family: sans-serif;
+            background-image: url("https://www.hdwallpapers.in/download/stars_black_sky_space_during_nighttime_4k_hd_space-3840x2160.jpg");
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            margin-top: 100px;
+        }
+
+        h3 {
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .form-box {
+            margin: 0 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            /* background-color: #83929d; */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            max-width: 100%;
+            margin-bottom: 20px;
+            background-image: url('https://getwallpapers.com/wallpaper/full/8/c/6/52833.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 22px);
+            /* Adjusted width to consider padding and border */
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            outline: none;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        input[type="number"]:focus {
+            border-color: #01060a;
+        }
+
+        input[type="submit"] {
+            background-color: #914caf;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2d8637;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Multispectral  Satellite  Image  Dehazing  &  Pollution  Estimation</h1>
+        <h2>Pollution Estimation</h2>
+        
+
+        <div class="container">
+            <div class="form-box">
+                <form method="POST" action="/">
+                    <label for="longitude">Longitude </label>
+                    <input type="number" step="any" id="longitude" name="longitude"><br>
+
+                    <label for="latitude">Latitude</label>
+                    <input type="number" step="any" id="latitude" name="latitude">
+
+                    <input type="submit" value="Submit">
+
+                    <div id="output"></div>
+                </form>
+            </div>
+            <div class="form-box">
+                <form action="/process_image" method="POST" enctype="multipart/form-data">
+                    <h3>Image Input</h3>
+                    <label for="image-input">Choose an image</label>
+                    <input type="file" id="image-input" name="image">
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2023 Eashwar. All rights reserved.</p>
+        </div>
+    </center>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var form = new FormData(document.querySelector('form'));
+            fetch('/', {
+                method: 'POST',
+                body: form
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    document.getElementById('output').textContent = 'The NO2 Concentration is : ' + data.sum;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        });
+    </script>
+</body>
+
+</html>
